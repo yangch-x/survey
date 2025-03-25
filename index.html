@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>心理健康问卷调查</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        max-width: 100%;
+        margin: 0;
+        padding: 15px;
+        background-color: #f5f5f5;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #333;
+      }
+
+      .survey-container {
+        background-color: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin: 0 auto;
+        max-width: 600px;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 0 0 20px 0;
+      }
+
+      .question {
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+      }
+
+      .question-title {
+        font-weight: bold;
+        margin-bottom: 12px;
+        font-size: 1rem;
+        padding: 0 5px;
+      }
+
+      .options label {
+        display: flex;
+        align-items: center;
+        margin: 0;
+        padding: 12px 15px;
+        background-color: #f8f8f8;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-bottom: 8px;
+        transition: background-color 0.2s;
+      }
+
+      .options label:active {
+        background-color: #e0e0e0;
+      }
+
+      .options input[type='radio'] {
+        margin-right: 10px;
+        width: 20px;
+        height: 20px;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        padding: 15px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+        font-weight: bold;
+        margin-top: 10px;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      button:active {
+        background-color: #45a049;
+      }
+
+      /* 适配 iPhone 安全区域 */
+      @supports (padding-bottom: env(safe-area-inset-bottom)) {
+        body {
+          padding-bottom: calc(env(safe-area-inset-bottom) + 15px);
+        }
+      }
+
+      /* 禁用选择文本 */
+      .options label {
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      /* 优化点击区域 */
+      .options label {
+        min-height: 44px;
+      }
+
+      /* 适配深色模式 */
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #121212;
+          color: #fff;
+        }
+
+        .survey-container {
+          background-color: #1e1e1e;
+        }
+
+        .options label {
+          background-color: #2d2d2d;
+        }
+
+        .options label:active {
+          background-color: #3d3d3d;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="survey-container">
+      <h1>心理健康自评问卷</h1>
+      <form id="surveyForm">
+        <!-- 问题部分保持不变 -->
+        // ... existing code ...
+      </form>
+    </div>
+
+    <script>
+      // 优化移动端点击体验
+      document.addEventListener('touchstart', function () {}, false);
+
+      document
+        .getElementById('surveyForm')
+        .addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          let total = 0;
+          const answers = {
+            q1: document.querySelector('input[name="q1"]:checked'),
+            q2: document.querySelector('input[name="q2"]:checked'),
+            q3: document.querySelector('input[name="q3"]:checked'),
+          };
+
+          // 检查是否所有问题都已回答
+          for (let key in answers) {
+            if (!answers[key]) {
+              // 使用更友好的提示方式
+              if ('vibrate' in navigator) {
+                navigator.vibrate(200);
+              }
+              alert('请回答所有问题！');
+              return;
+            }
+            total += parseInt(answers[key].value);
+          }
+
+          // 结果计算保持不变
+          let result = '';
+          if (total <= 2) {
+            result = '您的心理状态很好，请继续保持！';
+          } else if (total <= 5) {
+            result = '您的心理状态基本正常，建议适当放松。';
+          } else if (total <= 7) {
+            result = '您可能存在轻微的心理困扰，建议寻求专业帮助。';
+          } else {
+            result = '建议您尽快寻求专业心理咨询师的帮助。';
+          }
+
+          alert(`评估完成！\n总分：${total}\n${result}`);
+        });
+    </script>
+  </body>
+</html>
